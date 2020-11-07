@@ -17,7 +17,10 @@ var possibleTimes = [{time:"5 am", value:"5"},
     {time:"9 pm", value:"21"},
     {time:"10 pm", value:"22"},
     {time:"11 pm", value:"23"}];
+var currentTime = moment().format('H');
+
 console.log(possibleTimes);
+console.log(currentTime);
 
 $(document).ready(function(){
     console.log("Document ready");
@@ -32,8 +35,18 @@ $(document).ready(function(){
 
     function renderPlanner() {
         console.log("Initializing planner");
-        console.log(moment().format('H'));
-        console.log(typeof(moment().format('H')));
+        for (i=0; i<possibleTimes.length; i++) {
+            var newTimeRow = $("<div>").addClass("row time-row").attr('id', possibleTimes[i].value);
+            var newTimeLabel = $("<div>").addClass("col-sm-1 time-label").attr('id', possibleTimes[i].value).text(possibleTimes[i].time);
+            var newTaskInput = $("<input>").addClass("col-sm-10 task-input").attr('id', possibleTimes[i].value).attr('placeholder', "Enter in a task you wish to save here");
+            var newTaskButton = $("<button>").addClass("col-sm-1 task-button").attr('id', possibleTimes[i].value).text('Save');
+            $("#timeblock-container").append(newTimeRow);
+            (newTimeRow).append(newTimeLabel);
+            (newTimeRow).append(newTaskInput);
+            (newTimeRow).append(newTaskButton);
+            
+            
+        };
 
     };
 
