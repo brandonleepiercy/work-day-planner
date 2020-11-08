@@ -18,6 +18,7 @@ var possibleTimes = [{time:"5 am", value:"5"},
     {time:"10 pm", value:"22"},
     {time:"11 pm", value:"23"}];
 var currentTime = moment().format('H');
+var existingEventsArray = [];
 
 console.log(possibleTimes);
 console.log(currentTime);
@@ -65,24 +66,24 @@ $(document).ready(function(){
 
     $(".task-button").on("click", function(event){
         event.preventDefault();
-        console.log("Button clicked, grabbing the response box correlated to the button clicked")
+
+        console.log("Button clicked, grabbing the response box correlated to the button clicked");
         var buttonResponseBox = $(this).parent().children()[1];
         console.log("Button response box found: "+buttonResponseBox + "grabbing the recorded value");
         var responseValue = buttonResponseBox.value;
         console.log("Recorded value: "+responseValue);
+
         console.log("Storing task and time inside of an object");
-        var storedEvent = {
+        var newEvent = {
             time: $(this).attr("id"),
             task: responseValue,
         };
-        console.log(storedEvent);
-        console.log("Storing event in local storage, if the event is not null");
-        if(responseValue !== null) {
-            localStorage.setItem ("Event:", JSON.stringify(storedEvent));
-        } else {
-            return;
-        };
-        console.log("Stored event");
+        console.log(newEvent);
+        console.log("Combining newEvent with existingEventsArray");
+        existingEventsArray.push(newEvent);
+        console.log(existingEventsArray);
+
+        localStorage.setItem("Events" , JSON.stringify(existingEventsArray));
     });
 
     
