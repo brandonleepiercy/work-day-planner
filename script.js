@@ -31,6 +31,7 @@ $(document).ready(function(){
     function init () {
         renderPlanner();
         colorCode();
+        renderPreviousEvents();
 
     };
 
@@ -85,6 +86,19 @@ $(document).ready(function(){
 
         localStorage.setItem("Events" , JSON.stringify(existingEventsArray));
     });
+
+    function renderPreviousEvents() {
+        var prevEvents = JSON.parse(localStorage.getItem("Events"));
+        console.log(prevEvents);
+        console.log("Previous events pulled, combining them into the current events array");
+        var existingEventsArray = prevEvents;
+        console.log(existingEventsArray);
+        for (i=0; i<existingEventsArray.length; i++) {
+            console.log(existingEventsArray[i].time);
+            console.log(existingEventsArray[i].task);
+            $(".task-input").find('#'+existingEventsArray[i].time).value=existingEventsArray[i].task;
+        };
+    };
 
     
 
