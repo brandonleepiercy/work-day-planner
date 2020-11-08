@@ -38,7 +38,7 @@ $(document).ready(function(){
         for (i=0; i<possibleTimes.length; i++) {
             var newTimeRow = $("<div>").addClass("row time-row").attr('id', possibleTimes[i].value);
             var newTimeLabel = $("<div>").addClass("col-sm-1 time-label").attr('id', possibleTimes[i].value).text(possibleTimes[i].time);
-            var newTaskInput = $("<input>").addClass("col-sm-10 task-input").attr('id', possibleTimes[i].value).attr('placeholder', "Enter in a task you wish to save here");
+            var newTaskInput = $("<input>").addClass("col-sm-10 task-input").attr('id', possibleTimes[i].value).attr('placeholder', "...");
             var newTaskButton = $("<button>").addClass("col-sm-1 task-button").attr('id', possibleTimes[i].value).text('Save');
             $("#timeblock-container").append(newTimeRow);
             (newTimeRow).append(newTimeLabel);
@@ -50,7 +50,7 @@ $(document).ready(function(){
     };
 
     function colorCode() {
-        console.log(currentTime);
+        console.log("Color coding based off: " + currentTime + ":00 being the current time setting" );
         $(".time-row").each(function(){
             if (parseInt($(this).attr("id"))>parseInt(currentTime)) {
                 $(this).addClass("future");
@@ -60,6 +60,14 @@ $(document).ready(function(){
                 $(this).addClass("past");
             };
         });
+        console.log("Color coding complete");
     };
+
+    $(".task-button").on("click", function(event){
+        event.preventDefault();
+        console.log("Button clicked, grabbing button ID")
+        var clickedButtonID = $(this).attr("id");
+        console.log("Button ID: "+clickedButtonID);
+    });
 
 });
