@@ -65,9 +65,26 @@ $(document).ready(function(){
 
     $(".task-button").on("click", function(event){
         event.preventDefault();
-        console.log("Button clicked, grabbing button ID")
-        var clickedButtonID = $(this).attr("id");
-        console.log("Button ID: "+clickedButtonID);
+        console.log("Button clicked, grabbing the response box correlated to the button clicked")
+        var buttonResponseBox = $(this).parent().children()[1];
+        console.log("Button response box found: "+buttonResponseBox + "grabbing the recorded value");
+        var responseValue = buttonResponseBox.value;
+        console.log("Recorded value: "+responseValue);
+        console.log("Storing task and time inside of an object");
+        var storedEvent = {
+            time: $(this).attr("id"),
+            task: responseValue,
+        };
+        console.log(storedEvent);
+        console.log("Storing event in local storage, if the event is not null");
+        if(responseValue !== null) {
+            localStorage.setItem ("Event:", JSON.stringify(storedEvent));
+        } else {
+            return;
+        };
+        console.log("Stored event");
     });
+
+    
 
 });
