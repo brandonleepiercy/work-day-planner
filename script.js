@@ -43,15 +43,23 @@ $(document).ready(function(){
             $("#timeblock-container").append(newTimeRow);
             (newTimeRow).append(newTimeLabel);
             (newTimeRow).append(newTaskInput);
-            (newTimeRow).append(newTaskButton);
-            
-            
+            (newTimeRow).append(newTaskButton);    
         };
+        console.log("Planner layout printed to page");
 
     };
 
     function colorCode() {
-
+        console.log(currentTime);
+        $(".time-row").each(function(){
+            if (parseInt($(this).attr("id"))>parseInt(currentTime)) {
+                $(this).addClass("future");
+            } if (parseInt($(this).attr("id"))==parseInt(currentTime)) {
+                $(this).addClass("present");
+            } if (parseInt($(this).attr("id"))<parseInt(currentTime)) {
+                $(this).addClass("past");
+            };
+        });
     };
 
 });
