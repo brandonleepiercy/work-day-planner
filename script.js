@@ -39,7 +39,7 @@ $(document).ready(function(){
         for (i=0; i<possibleTimes.length; i++) {
             var newTimeRow = $("<div>").addClass("row time-block").attr('id', possibleTimes[i].value);
             var newTimeLabel = $("<div>").addClass("col-sm-1 time-label hour").attr('id', possibleTimes[i].value).text(possibleTimes[i].time);
-            var newTaskInput = $("<input>").addClass("col-sm-10 task-input").attr('id', possibleTimes[i].value).attr('placeholder', "...");
+            var newTaskInput = $("<input>").addClass("col-sm-10 task-input").attr('id', possibleTimes[i].value + 'input').attr('placeholder', "...");
             var newTaskButton = $("<button>").addClass("col-sm-1 task-button saveBtn").attr('id', possibleTimes[i].value).text("Save");
             $("#timeblock-container").append(newTimeRow);
             (newTimeRow).append(newTimeLabel);
@@ -77,8 +77,10 @@ $(document).ready(function(){
             existingEventsArray=existingEventsArray.concat(prevEventsArray);
             console.log(existingEventsArray);
             for(i=0;i<existingEventsArray.length;i++){
-                var inputToEdit =$("input").find("#"+existingEventsArray[i].time);
-                console.log(inputToEdit);
+                var toEdit = document.getElementById(existingEventsArray[i].time+"input");
+                console.log(toEdit);
+                toEdit.value=existingEventsArray[i].task;
+
             };
         };
     };
