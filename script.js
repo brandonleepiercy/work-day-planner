@@ -20,8 +20,7 @@ var possibleTimes = [{time:"5 am", value:"5"},
 var currentTime = moment().format('H');
 var existingEventsArray = [];
 
-console.log(possibleTimes);
-console.log(currentTime);
+console.log("Current hour: "+currentTime);
 
 $(document).ready(function(){
     console.log("Document ready");
@@ -38,10 +37,10 @@ $(document).ready(function(){
     function renderPlanner() {
         console.log("Initializing planner");
         for (i=0; i<possibleTimes.length; i++) {
-            var newTimeRow = $("<div>").addClass("row time-row").attr('id', possibleTimes[i].value);
-            var newTimeLabel = $("<div>").addClass("col-sm-1 time-label").attr('id', possibleTimes[i].value).text(possibleTimes[i].time);
+            var newTimeRow = $("<div>").addClass("row time-block").attr('id', possibleTimes[i].value);
+            var newTimeLabel = $("<div>").addClass("col-sm-1 time-label hour").attr('id', possibleTimes[i].value).text(possibleTimes[i].time);
             var newTaskInput = $("<input>").addClass("col-sm-10 task-input").attr('id', possibleTimes[i].value).attr('placeholder', "...");
-            var newTaskButton = $("<button>").addClass("col-sm-1 task-button").attr('id', possibleTimes[i].value).text('Save');
+            var newTaskButton = $("<button>").addClass("col-sm-1 task-button saveBtn").attr('id', possibleTimes[i].value).text("Save");
             $("#timeblock-container").append(newTimeRow);
             (newTimeRow).append(newTimeLabel);
             (newTimeRow).append(newTaskInput);
@@ -52,8 +51,8 @@ $(document).ready(function(){
     };
 
     function colorCode() {
-        console.log("Color coding based off: " + currentTime + ":00 being the current time setting" );
-        $(".time-row").each(function(){
+        console.log("Color coding based off: " + currentTime + ":00 as current time setting" );
+        $(".task-input").each(function(){
             if (parseInt($(this).attr("id"))>parseInt(currentTime)) {
                 $(this).addClass("future");
             } if (parseInt($(this).attr("id"))==parseInt(currentTime)) {
@@ -65,13 +64,30 @@ $(document).ready(function(){
         console.log("Color coding complete");
     };
 
+    function renderPreviousEvents() {
+        var prevEvents = JSON.parse(localStorage.getItem("Events"));
+        var prevEventsArray = []
+        console.log(prevEvents);
+        console.log(prevEventsArray);
+        if(prevEvents==null) {
+            return;
+        } else {
+            prevEventsArray=prevEvents;
+            console.log(prevEventsArray);
+            existingEventsArray=existingEventsArray.concat(prevEventsArray);
+            console.log(existingEventsArray);
+            for(i=0;i<existingEventsArray.length;i++){
+                var inputToEdit =$("input").find("#"+existingEventsArray[i].time);
+                console.log(inputToEdit);
+            };
+        };
+    };
+
     $(".task-button").on("click", function(event){
         event.preventDefault();
 
-        console.log("Button clicked, grabbing the response box correlated to the button clicked");
-        var buttonResponseBox = $(this).parent().children()[1];
-        console.log("Button response box found: "+buttonResponseBox + "grabbing the recorded value");
-        var responseValue = buttonResponseBox.value;
+        console.log("Button clicked, grabbing the response correlated to the button clicked");
+        var responseValue = ($(this).parent().children()[1]).value;
         console.log("Recorded value: "+responseValue);
 
         console.log("Storing task and time inside of an object");
@@ -80,25 +96,12 @@ $(document).ready(function(){
             task: responseValue,
         };
         console.log(newEvent);
-        console.log("Combining newEvent with existingEventsArray");
+        console.log(existingEventsArray);
         existingEventsArray.push(newEvent);
         console.log(existingEventsArray);
-
         localStorage.setItem("Events" , JSON.stringify(existingEventsArray));
+        console.log("Items consoldiated into the events array and stored locally.");
     });
-
-    function renderPreviousEvents() {
-        var prevEvents = JSON.parse(localStorage.getItem("Events"));
-        console.log(prevEvents);
-        console.log("Previous events pulled, combining them into the current events array");
-        var existingEventsArray = prevEvents;
-        console.log(existingEventsArray);
-        for (i=0; i<existingEventsArray.length; i++) {
-            console.log(existingEventsArray[i].time);
-            console.log(existingEventsArray[i].task);
-            $(".task-input").find('#'+existingEventsArray[i].time).value=existingEventsArray[i].task;
-        };
-    };
 
     
 
